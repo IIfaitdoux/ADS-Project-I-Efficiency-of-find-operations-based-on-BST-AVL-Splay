@@ -1,7 +1,7 @@
 ---
-title: "Project I: Efficiency of basic operations based on BST, AVL and Splay Trees"
-author: "Group 1: Lin Zhiyu, Hu Junyu, Huang Zhenhua"
-date: 2025-09-xx
+# title: "Project I: Efficiency of basic operations based on BST, AVL and Splay Trees"
+# author: "Group 1: Lin Zhiyu, Hu Junyu, Huang Zhenhua"
+# date: 2025-09-xx
 header-includes:
   - '\usepackage{graphicx}'
   - '\usepackage[margin=2cm]{geometry}'
@@ -12,6 +12,7 @@ header-includes:
 
 # 1 Introduction
 In this project, we implement three types of binary search trees: BST, AVL Tree, and Splay Tree as well as some basic operations on them including insertion, deletion and find. We then conduct experiments to compare the efficiency of a series of these operations on the three types of trees.
+
 # 2 Algorithm Specification
 
 # 3 Test Design
