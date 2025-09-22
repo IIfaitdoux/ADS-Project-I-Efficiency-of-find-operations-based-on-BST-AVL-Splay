@@ -33,4 +33,8 @@ TreeNode* splay_insert(TreeNode* root, int key);
 TreeNode* splay_delete(TreeNode* root, int key);
 TreeNode* splay_find(TreeNode* root, int key);
 
+// Generic functions for all tree types
+TreeNode* insert(TreeNode* root, int key, int Treetype);
+TreeNode* delete(TreeNode* root, int key, int Treetype); 
+
 #endif
