@@ -1,0 +1,496 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Project I: Efficiency of basic operations based on BST, AVL and Splay Trees},
+  pdfauthor={Group 1: Lin Zhiyu, Hu Junyu, Huang Zhenhua},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\newenvironment{Shaded}{}{}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{graphicx}
+\usepackage[margin=2cm]{geometry}
+\usepackage{fontspec}
+\usepackage{indentfirst}
+\usepackage{minted}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[outputdir=.,cache=false]{minted}
+\tcbuselibrary{listings, minted, skins}
+\newtcblisting{pcode}{listing engine=minted, colback=gray!10, colframe=white, listing only, minted options={breaklines,autogobble}}
+\setlength{\parindent}{2em}
+
+\title{Project I: Efficiency of basic operations based on BST, AVL and
+Splay Trees}
+\author{Group 1: Lin Zhiyu, Hu Junyu, Huang Zhenhua}
+\date{2025-09-xx}
+
+\begin{document}
+\maketitle
+
+\thispagestyle{empty}
+\begin{titlepage}
+  \centering
+  \vspace*{1cm}
+  %顶部图片
+  \includegraphics[width=0.35\paperwidth]{images/cover.png}\par
+  \vspace{2cm}
+  %标题
+  {\Huge\bfseries Project I:\\[0.5em]Efficiency of basic operations based on BST, AVL and Splay Trees\par}
+  \vspace{1.5cm}
+  %作者
+  {\Large Group 1: Lin Zhiyu, Hu Junyu, Huang Zhenhua\par}
+  \vfill
+  %日期
+  {\large 2025-09-XX\par}
+\end{titlepage}
+\clearpage
+\pagenumbering{arabic}
+
+\hypertarget{introduction}{%
+\section{1 Introduction}\label{introduction}}
+
+In this project, we implement three types of binary search trees: BST,
+AVL Tree, and Splay Tree as well as some basic operations on them
+including insertion, deletion and find. We then conduct experiments to
+compare the efficiency of a series of these operations on the three
+types of trees.
+
+\hypertarget{algorithm-specification}{%
+\section{2 Algorithm Specification}\label{algorithm-specification}}
+
+This section details the implementation of the three tree structures:
+Binary Search Tree (BST), AVL Tree, and Splay Tree.
+
+\hypertarget{binary-search-tree-bst}{%
+\subsubsection{2.1 Binary Search Tree
+(BST)}\label{binary-search-tree-bst}}
+
+BST is a binary tree data structure which has the following properties:
+- The left subtree of a node contains only nodes with keys lesser than
+the node's key. - The right subtree of a node contains only nodes with
+keys greater than the node's key. - The left and right subtree each must
+also be a binary search tree. - There must be no duplicate nodes.
+
+Our implementation is a straightforward recursive approach.
+
+\hypertarget{bst-insertion}{%
+\paragraph{2.1.1 BST Insertion}\label{bst-insertion}}
+
+The insertion operation recursively finds the correct position for the
+new key while maintaining the BST property.
+
+\begin{pcode}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{function BST\_INSERT(node, key):}
+  \CommentTok{// If the current node is null, we\textquotesingle{}ve found the insertion point.}
+  \ControlFlowTok{if}\NormalTok{ node is null:}
+    \ControlFlowTok{return}\NormalTok{ CREATE\_NODE(key)}
+  
+  \CommentTok{// Recur down the tree.}
+  \ControlFlowTok{if}\NormalTok{ key \textless{} node.key:}
+\NormalTok{    node.left = BST\_INSERT(node.left, key)}
+  \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ key \textgreater{} node.key:}
+\NormalTok{    node.right = BST\_INSERT(node.right, key)}
+  
+  \CommentTok{// Return the (unchanged) node pointer.}
+  \ControlFlowTok{return}\NormalTok{ node}
+\end{Highlighting}
+\end{Shaded}
+
+\end{pcode}
+
+\hypertarget{bst-deletion}{%
+\paragraph{2.1.2 BST Deletion}\label{bst-deletion}}
+
+Deletion handles three cases for the node to be deleted: no children,
+one child, or two children. For a node with two children, it is replaced
+by its in-order successor (the smallest key in its right subtree).
+
+\begin{pcode}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{function BST\_DELETE(node, key):}
+  \ControlFlowTok{if}\NormalTok{ node is null: }\ControlFlowTok{return}\NormalTok{ null}
+
+  \CommentTok{// Find the node to be deleted.}
+  \ControlFlowTok{if}\NormalTok{ key \textless{} node.key:}
+\NormalTok{    node.left = BST\_DELETE(node.left, key)}
+  \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ key \textgreater{} node.key:}
+\NormalTok{    node.right = BST\_DELETE(node.right, key)}
+  \ControlFlowTok{else}\NormalTok{: }\CommentTok{// Key found, this is the node to be deleted.}
+    \CommentTok{// Case 1 \& 2: Node with one or no child.}
+    \ControlFlowTok{if}\NormalTok{ node.left is null:}
+\NormalTok{      temp = node.right}
+\NormalTok{      free(node)}
+      \ControlFlowTok{return}\NormalTok{ temp}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ node.right is null:}
+\NormalTok{      temp = node.left}
+\NormalTok{      free(node)}
+      \ControlFlowTok{return}\NormalTok{ temp}
+    
+    \CommentTok{// Case 3: Node with two children.}
+    \CommentTok{// Find the in{-}order successor (smallest in the right subtree).}
+\NormalTok{    temp = FIND\_MIN(node.right)}
+    \CommentTok{// Copy the successor\textquotesingle{}s key to this node.}
+\NormalTok{    node.key = temp.key}
+    \CommentTok{// Delete the in{-}order successor from the right subtree.}
+\NormalTok{    node.right = BST\_DELETE(node.right, temp.key)}
+  
+  \ControlFlowTok{return}\NormalTok{ node}
+\end{Highlighting}
+\end{Shaded}
+
+\end{pcode}
+
+\hypertarget{avl-tree}{%
+\subsubsection{2.2 AVL Tree}\label{avl-tree}}
+
+An AVL tree is a self-balancing Binary Search Tree. The heights of the
+two child subtrees of any node differ by at most one. If at any time
+they differ by more than one, rebalancing is done to restore this
+property.
+
+\hypertarget{avl-insertion}{%
+\paragraph{2.2.1 AVL Insertion}\label{avl-insertion}}
+
+Insertion begins like a standard BST insertion. After inserting the new
+node, we traverse back up the tree, updating the height of each ancestor
+node. At each node, we check the balance factor and perform rotations if
+the tree has become unbalanced.
+
+\begin{pcode}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{function AVL\_INSERT(node, key):}
+  \CommentTok{// 1. Perform standard BST insertion.}
+  \ControlFlowTok{if}\NormalTok{ node is null:}
+    \ControlFlowTok{return}\NormalTok{ CREATE\_NODE(key)}
+  \ControlFlowTok{if}\NormalTok{ key \textless{} node.key:}
+\NormalTok{    node.left = AVL\_INSERT(node.left, key)}
+  \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ key \textgreater{} node.key:}
+\NormalTok{    node.right = AVL\_INSERT(node.right, key)}
+  \ControlFlowTok{else}\NormalTok{: }\CommentTok{// Duplicate keys are not inserted.}
+    \ControlFlowTok{return}\NormalTok{ node}
+
+  \CommentTok{// 2. Update height of the current ancestor node.}
+\NormalTok{  UPDATE\_HEIGHT(node)}
+
+  \CommentTok{// 3. Get the balance factor to check if this node became unbalanced.}
+\NormalTok{  balance = GET\_BALANCE(node)}
+
+  \CommentTok{// 4. If unbalanced, perform rotations.}
+  \CommentTok{// Left Left Case}
+  \ControlFlowTok{if}\NormalTok{ balance \textgreater{} }\DecValTok{1}\NormalTok{ and key \textless{} node.left.key:}
+    \ControlFlowTok{return}\NormalTok{ ROTATE\_RIGHT(node)}
+  
+  \CommentTok{// Right Right Case}
+  \ControlFlowTok{if}\NormalTok{ balance \textless{} {-}}\DecValTok{1}\NormalTok{ and key \textgreater{} node.right.key:}
+    \ControlFlowTok{return}\NormalTok{ ROTATE\_LEFT(node)}
+
+  \CommentTok{// Left Right Case}
+  \ControlFlowTok{if}\NormalTok{ balance \textgreater{} }\DecValTok{1}\NormalTok{ and key \textgreater{} node.left.key:}
+\NormalTok{    node.left = ROTATE\_LEFT(node.left)}
+    \ControlFlowTok{return}\NormalTok{ ROTATE\_RIGHT(node)}
+
+  \CommentTok{// Right Left Case}
+  \ControlFlowTok{if}\NormalTok{ balance \textless{} {-}}\DecValTok{1}\NormalTok{ and key \textless{} node.right.key:}
+\NormalTok{    node.right = ROTATE\_RIGHT(node.right)}
+    \ControlFlowTok{return}\NormalTok{ ROTATE\_LEFT(node)}
+
+  \CommentTok{// 5. Return the (possibly new) root of the subtree.}
+  \ControlFlowTok{return}\NormalTok{ node}
+\end{Highlighting}
+\end{Shaded}
+
+\end{pcode}
+
+\hypertarget{avl-deletion}{%
+\paragraph{2.2.2 AVL Deletion}\label{avl-deletion}}
+
+Deletion also starts as a standard BST deletion. After the node is
+removed, the algorithm retraces the path upwards to the root, updating
+heights and rebalancing each node along the path.
+
+\begin{pcode}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{function AVL\_DELETE(node, key):}
+  \CommentTok{// 1. Perform standard BST delete.}
+  \ControlFlowTok{if}\NormalTok{ node is null: }\ControlFlowTok{return}\NormalTok{ null}
+  \ControlFlowTok{if}\NormalTok{ key \textless{} node.key:}
+\NormalTok{    node.left = AVL\_DELETE(node.left, key)}
+  \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ key \textgreater{} node.key:}
+\NormalTok{    node.right = AVL\_DELETE(node.right, key)}
+  \ControlFlowTok{else}\NormalTok{:}
+    \CommentTok{// Deletion logic for 0, 1, or 2 children (same as BST).}
+\NormalTok{    ...}
+
+  \CommentTok{// If the tree had only one node then return.}
+  \ControlFlowTok{if}\NormalTok{ node is null: }\ControlFlowTok{return}\NormalTok{ null}
+
+  \CommentTok{// 2. Update height of the current node.}
+\NormalTok{  UPDATE\_HEIGHT(node)}
+
+  \CommentTok{// 3. Get balance factor and perform rotations to rebalance the tree.}
+  \CommentTok{// The logic is similar to insertion but checks the balance of children subtrees.}
+\NormalTok{  balance = GET\_BALANCE(node)}
+  \CommentTok{// Left Heavy}
+  \ControlFlowTok{if}\NormalTok{ balance \textgreater{} }\DecValTok{1}\NormalTok{:}
+    \ControlFlowTok{if}\NormalTok{ GET\_BALANCE(node.left) \textgreater{}= }\DecValTok{0}\NormalTok{: }\CommentTok{// LL Case}
+      \ControlFlowTok{return}\NormalTok{ ROTATE\_RIGHT(node)}
+    \ControlFlowTok{else}\NormalTok{: }\CommentTok{// LR Case}
+\NormalTok{      node.left = ROTATE\_LEFT(node.left)}
+      \ControlFlowTok{return}\NormalTok{ ROTATE\_RIGHT(node)}
+  \CommentTok{// Right Heavy}
+  \ControlFlowTok{if}\NormalTok{ balance \textless{} {-}}\DecValTok{1}\NormalTok{:}
+    \ControlFlowTok{if}\NormalTok{ GET\_BALANCE(node.right) \textless{}= }\DecValTok{0}\NormalTok{: }\CommentTok{// RR Case}
+      \ControlFlowTok{return}\NormalTok{ ROTATE\_LEFT(node)}
+    \ControlFlowTok{else}\NormalTok{: }\CommentTok{// RL Case}
+\NormalTok{      node.right = ROTATE\_RIGHT(node.right)}
+      \ControlFlowTok{return}\NormalTok{ ROTATE\_LEFT(node)}
+
+  \ControlFlowTok{return}\NormalTok{ node}
+\end{Highlighting}
+\end{Shaded}
+
+\end{pcode}
+
+\hypertarget{splay-tree}{%
+\subsubsection{2.3 Splay Tree}\label{splay-tree}}
+
+A Splay Tree is a self-adjusting binary search tree with the additional
+property that recently accessed elements are quick to access again. It
+performs basic operations such as insertion, look-up and removal in
+O(log n) amortized time. All operations on a splay tree are based on the
+\texttt{splay} operation.
+
+\hypertarget{splay-operation}{%
+\paragraph{2.3.1 Splay Operation}\label{splay-operation}}
+
+The splay operation brings a target key to the root of the tree through
+a series of rotations. Our implementation is a recursive, top-down
+splay.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Zig:} A single rotation (left or right) when the target's
+  parent is the root.
+\item
+  \textbf{Zig-Zig:} Two rotations in the same direction (e.g., two right
+  rotations).
+\item
+  \textbf{Zig-Zag:} Two rotations in opposite directions (e.g., a left
+  then a right rotation).
+\end{itemize}
+
+\begin{pcode}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{function SPLAY(node, key):}
+  \CommentTok{// Base case: node is null or key is at root.}
+  \ControlFlowTok{if}\NormalTok{ node is null or node.key == key:}
+    \ControlFlowTok{return}\NormalTok{ node}
+
+  \CommentTok{// Key lies in left subtree.}
+  \ControlFlowTok{if}\NormalTok{ key \textless{} node.key:}
+    \ControlFlowTok{if}\NormalTok{ node.left is null: }\ControlFlowTok{return}\NormalTok{ node }\CommentTok{// Key not found.}
+    \CommentTok{// Zig{-}Zig (Left Left)}
+    \ControlFlowTok{if}\NormalTok{ key \textless{} node.left.key:}
+\NormalTok{      node.left.left = SPLAY(node.left.left, key)}
+\NormalTok{      node = ROTATE\_RIGHT(node)}
+    \CommentTok{// Zig{-}Zag (Left Right)}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ key \textgreater{} node.left.key:}
+\NormalTok{      node.left.right = SPLAY(node.left.right, key)}
+      \ControlFlowTok{if}\NormalTok{ node.left.right is not null:}
+\NormalTok{        node.left = ROTATE\_LEFT(node.left)}
+    
+    \CommentTok{// Final Zig rotation for the node.}
+    \ControlFlowTok{if}\NormalTok{ node.left is null: }\ControlFlowTok{return}\NormalTok{ node}
+    \ControlFlowTok{else}\NormalTok{: }\ControlFlowTok{return}\NormalTok{ ROTATE\_RIGHT(node)}
+  
+  \CommentTok{// Key lies in right subtree (symmetric to the left case).}
+  \ControlFlowTok{else}\NormalTok{:}
+    \ControlFlowTok{if}\NormalTok{ node.right is null: }\ControlFlowTok{return}\NormalTok{ node }\CommentTok{// Key not found.}
+    \CommentTok{// Zig{-}Zag (Right Left)}
+    \ControlFlowTok{if}\NormalTok{ key \textless{} node.right.key:}
+\NormalTok{      node.right.left = SPLAY(node.right.left, key)}
+      \ControlFlowTok{if}\NormalTok{ node.right.left is not null:}
+\NormalTok{        node.right = ROTATE\_RIGHT(node.right)}
+    \CommentTok{// Zig{-}Zig (Right Right)}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ key \textgreater{} node.right.key:}
+\NormalTok{      node.right.right = SPLAY(node.right.right, key)}
+\NormalTok{      node = ROTATE\_LEFT(node)}
+
+    \CommentTok{// Final Zig rotation for the node.}
+    \ControlFlowTok{if}\NormalTok{ node.right is null: }\ControlFlowTok{return}\NormalTok{ node}
+    \ControlFlowTok{else}\NormalTok{: }\ControlFlowTok{return}\NormalTok{ ROTATE\_LEFT(node)}
+\end{Highlighting}
+\end{Shaded}
+
+\end{pcode}
+
+\hypertarget{splay-insertion}{%
+\paragraph{2.3.2 Splay Insertion}\label{splay-insertion}}
+
+To insert a key, we first perform a standard BST insertion. Then, we
+splay the newly inserted key to the root. This makes the new item quick
+to access again.
+
+\begin{pcode}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{function SPLAY\_INSERT(node, key):}
+  \CommentTok{// Insert the key as in a normal BST.}
+\NormalTok{  node = BST\_INSERT(node, key)}
+  \CommentTok{// Splay the newly inserted key to the root.}
+  \ControlFlowTok{return}\NormalTok{ SPLAY(node, key)}
+\end{Highlighting}
+\end{Shaded}
+
+\end{pcode}
+
+\hypertarget{splay-deletion}{%
+\paragraph{2.3.3 Splay Deletion}\label{splay-deletion}}
+
+To delete a key, we first splay the tree on that key. If the key is
+found, it becomes the root. We then remove the root, which leaves two
+subtrees (left and right). We then join these two subtrees by splaying
+on the largest key in the left subtree (making it the new root of the
+left part) and then attaching the right subtree as its right child.
+
+\begin{pcode}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{function SPLAY\_DELETE(node, key):}
+  \ControlFlowTok{if}\NormalTok{ node is null: }\ControlFlowTok{return}\NormalTok{ null}
+
+  \CommentTok{// Splay the key to the root.}
+\NormalTok{  node = SPLAY(node, key)}
+
+  \CommentTok{// If key is not in the tree, do nothing.}
+  \ControlFlowTok{if}\NormalTok{ node.key != key:}
+    \ControlFlowTok{return}\NormalTok{ node}
+
+  \CommentTok{// Key is now at the root.}
+  \CommentTok{// If there is no left subtree, the right subtree becomes the new tree.}
+  \ControlFlowTok{if}\NormalTok{ node.left is null:}
+\NormalTok{    new\_root = node.right}
+  \ControlFlowTok{else}\NormalTok{:}
+    \CommentTok{// Splay the largest element in the left subtree to its root.}
+\NormalTok{    new\_root = SPLAY(node.left, key) }\CommentTok{// Note: key is not in left subtree, so this brings max element to root.}
+    \CommentTok{// Attach the original right subtree.}
+\NormalTok{    new\_root.right = node.right}
+  
+\NormalTok{  free(node)}
+  \ControlFlowTok{return}\NormalTok{ new\_root}
+\end{Highlighting}
+\end{Shaded}
+
+\end{pcode}
+
+\hypertarget{test-design}{%
+\section{3 Test Design}\label{test-design}}
+
+\hypertarget{test-results}{%
+\section{4 Test Results}\label{test-results}}
+
+\hypertarget{analysis-and-comments}{%
+\section{5 Analysis and Comments}\label{analysis-and-comments}}
+
+\hypertarget{declaration}{%
+\subsection{Declaration}\label{declaration}}
+
+\textbf{\emph{We hereby declare that all the work done in this project
+is of our own independent effort.}}
+
+pandoc Report.md --from markdown --pdf-engine=xelatex\\
+--pdf-engine-opt=-shell-escape --pdf-engine-opt=-output-directory=.\\
+--lua-filter=filter-wrap-pcode.lua --include-before-body=cover.tex -o
+Report.pdf
+
+\end{document}
