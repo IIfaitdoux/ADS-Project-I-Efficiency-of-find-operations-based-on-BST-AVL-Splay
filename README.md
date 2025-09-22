@@ -13,6 +13,11 @@ This is our first project of ADS. Sincerely I wish us have a perfect cooperation
 - avl.c: operation functions of AVL trees
 - bst.c: operation functions of BST
 - splay.c: operation functions of splay trees
+- tree.c: unify the insert & delete operation
+- testmode.c: unify different testmodes
+- result.csv: store the runtime data
+- table.py: create the runtime table in different testmodes
+- plot.py: plot the runtime data in different testmodes
 - Makefile: build the program
 
 ## Some reminds
@@ -20,6 +25,7 @@ This is our first project of ADS. Sincerely I wish us have a perfect cooperation
 - Please add the make tool(usually in C:\Program Files (x86)\Dev-Cpp\MinGW64\bin) into your environment variables
 - If you see too many warnings when you “make”, just delete the ‘-Wall -g’ in the first line of makefile
 - All members should edit this readme.md if there is a big change.
+- Install pandas & matplotlib in your python env
 
 
 
