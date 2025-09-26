@@ -1,7 +1,7 @@
 #include "tree.h"
 #include "testmode.h"
 #include <time.h>
-#define REPEATITION 1000
+#define REPEATITION 100
 //store function//
 void store(char* TreeType, char* TestMode, int n, double runtime, const char* filename) {
     FILE* f = fopen(filename, "a");
@@ -31,7 +31,7 @@ int main() {
     //initialize the csv file//
     init("result.csv");
     //start to test//
-    for (int n = 100; n <= 1000; n += 100) {
+    for (int n = 1000; n <= 10000; n += 1000) {
         for (int TreeType = 0; TreeType < 3; TreeType += 1) {
             for (int TestMode = 0; TestMode < 3; TestMode += 1) {
                 int* insert_array = insert_order(n, TestMode);

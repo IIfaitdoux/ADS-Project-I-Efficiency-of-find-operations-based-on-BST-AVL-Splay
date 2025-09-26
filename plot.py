@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 #read the runtime info file
-df = pd.read_csv("result.csv")
+df = pd.read_csv("./result.csv")
 #group by 3 insert & delete ways
 for testmode in df["TestMode"].unique():
     subset = df[df["TestMode"] == testmode]

@@ -1,12 +1,4 @@
 #include "tree.h"
-// Create a new tree node
-TreeNode* create_node(int key) {
-    TreeNode* node = (TreeNode*)malloc(sizeof(TreeNode));
-    node->key = key;
-    node->left = node->right = NULL;
-    node->height = 0;
-    return node;
-}
 
 TreeNode* bst_insert(TreeNode* root, int key) {
     if (root == NULL) return create_node(key);

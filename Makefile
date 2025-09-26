@@ -1,4 +1,4 @@
-CC = "/c/Program Files (x86)/Dev-Cpp/MinGW64/bin/gcc.exe"
+CC = "gcc"
 CFLAGS = -std=c99
 
 SOURCES = bst.c avl.c splay.c main.c testmode.c tree.c
@@ -15,3 +15,12 @@ $(TARGET): $(OBJECTS)
 
 clean:
 	rm -f $(OBJECTS) $(TARGET)
+
+run: $(TARGET)
+	./$(TARGET)
+
+plot: result.csv
+	python3 plot.py result.csv
+
+table: result.csv
+	python3 table.py result.csv

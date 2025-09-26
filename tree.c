@@ -33,3 +33,11 @@ TreeNode* delete(TreeNode* root, int key, int TreeType) {
         return root;
     }
 }
+
+TreeNode* create_node(int key) {
+    TreeNode* node = (TreeNode*)malloc(sizeof(TreeNode));
+    node->key = key;
+    node->left = node->right = NULL;
+    node->height = 0;
+    return node;
+}

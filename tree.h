@@ -15,6 +15,9 @@ typedef struct TreeNode {
     int height;  
 } TreeNode;
 
+// Create a new tree node
+TreeNode* create_node(int key);
+
 // Basic operations for bst
 TreeNode* bst_insert(TreeNode* root, int key);
 TreeNode* bst_delete(TreeNode* root, int key);
