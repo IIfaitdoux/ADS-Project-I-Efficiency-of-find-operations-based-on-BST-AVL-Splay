@@ -5,6 +5,7 @@
 header-includes:
   - '\usepackage{graphicx}'
   - '\usepackage[margin=2cm]{geometry}'
+  - '\usepackage{float}'
   - '\usepackage{fontspec}' # 如果需要中文，使用 xelatex
   - '\newfontfamily\codefont{DejaVu Sans Mono}' # 设置代码字体
   - '\usepackage{indentfirst}' # 首行缩进
@@ -106,6 +107,25 @@ function BST_DELETE(node, key):
 ## 2.2 AVL Tree
 
 An AVL tree is a self-balancing Binary Search Tree. The heights of the two child subtrees of any node differ by at most one. If at any time they differ by more than one, rebalancing is done to restore this property.
+
+### 2.2.0 Rotations
+
+Rotations are the key operations that maintain the balance of an AVL tree. Here are our implementations of the basic rotations (take right rotation as an example):
+
+```c
+function ROTATE_RIGHT(y):
+  x = y.left
+  T2 = x.right
+  // Perform rotation.
+  x.right = y
+  y.left = T2
+  // Update heights.
+  UPDATE_HEIGHT(y)
+  UPDATE_HEIGHT(x)
+  // Return new root.
+  return x
+```
+
 
 ### 2.2.1 AVL Insertion
 
@@ -311,7 +331,7 @@ The procedure can be summarized as follows:
 
 5. **Calculation and Storage:** Calculate the average runtime in milliseconds using the formula:
 
-$runtime = (totaltime / CLOCKS_PER_SEC / REPETITIONS) * 1000$
+$runtime = (totaltime / CLOCKS\_PER\_SEC / REPETITIONS) × 1000$
 
 Store the results in the CSV file in a structured format.
 
@@ -476,57 +496,61 @@ The space complexity of these tree structures can be broken down into two main c
 
 ### 4.2.1 Ordered Data Scenarios (1 & 2)
 
-In the scenarios with ordered insertions, the standard **BST** performs exceptionally poorly. That's because inserting keys in ascending order (e.g., 0, 1, 2, ...) degenerates the BST into a long chain of right children—effectively, a linked list. Each insertion takes $O(i)$ time for the $i$-th element, leading to a total insertion time of $\sum_{i=1}^{N} O(i) = O(N^2)$. Deletions on this skewed structure are similarly inefficient. This quadratic complexity is clearly visible in the plots for both scenarios, where the runtime for BST forms a steep, upward-curving line, quickly dominating the graph.
+In the scenarios with ordered insertions, the standard **BST** performs exceptionally poorly. That's because inserting keys in ascending order ($e.g., 0, 1, 2, ...$) degenerates the BST into a long chain linked list. Each insertion takes $O(i)$ time for the $i$-th element, leading to a total insertion time of $\sum_{i=1}^{N} O(i) = O(N^2)$. Deletions on this skewed structure are similarly inefficient. This quadratic complexity is clearly visible in the plots for both scenarios, where the runtime for BST forms a steep, upward-curving line, quickly dominating the graph.
 
-The **AVL Tree** and **Splay Tree**, however, excel in these scenarios. Their runtimes are so efficient that on the full-scale plots (see *Figure 1(a)* and *Figure 2(a)*), their performance curves are almost indistinguishable from the x-axis. The zoomed-in plots (*Figure 1(b)* and *Figure 2(b)*) reveal that their runtimes grow very slowly as `N` increases, appearing as nearly flat lines. This visually confirms their efficiency and scalability in handling ordered data.
+The **AVL Tree** and **Splay Tree**, however, excel in these scenarios. Their runtimes are so efficient that on the full-scale plots (see ***Figure 1(a)&(c)***), their performance curves are almost indistinguishable from the x-axis. The zoomed-in plots (***Figure 1(b)&(d)***) reveal that their runtimes grow very slowly as `N` increases, appearing as nearly flat lines. This visually confirms their efficiency and scalability in handling ordered data.
 
 **AVL Tree**, by performing rotations after each insertion, maintains a balanced structure with a height of $O(\log N)$. For instance, when inserting keys `0, 1, 2`, the insertion of `2` creates an imbalance at the root `0`. This is a "Right-Right" case, which is fixed by a single Left Rotation. By consistently applying such corrections, the tree remains balanced. This guarantees that each of the $2N$ operations (insert and delete) takes $O(\log N)$ time, resulting in a total runtime of $O(N \log N)$. This is reflected in its nearly flat, highly efficient performance curve.
 
 **Splay Tree** utilizes the splay operation to provide excellent amortized performance. When inserting sequential data, each insertion splays the new node to the root. This series of operations effectively keeps the tree from becoming deeply unbalanced. For sequential access patterns (like increasing insertion or deletion), the total time is closer to $O(N)$. The zoomed-in plots confirm this: the Splay Tree's runtime is consistently slightly lower than the AVL Tree's. This is because while the AVL tree incurs a constant overhead for balancing on every operation, the splay operation is particularly efficient for sequential access. For example, after inserting key `k`, it becomes the root. To insert `k+1`, the search starts at the root `k`, immediately goes to the right child, and finds the insertion spot. The subsequent splay on `k+1` is thus very fast. This exploitation of **locality of reference** gives the Splay Tree a slight edge in these specific scenarios.
 
+A vertical comparison between these two scenarios also reveals interesting behaviors:
+
+For **BST**, sequential deletion (Scenario 1) is significantly faster than reverse-order deletion (Scenario 2). In a tree built from ascending keys, the structure is a long right-leaning chain. Deleting in reverse order (e.g., `N-1`, `N-2`, ...) repeatedly targets the leaf node at the end of this chain, requiring a full traversal each time, leading to a total deletion cost of $O(N^2)$. In contrast, sequential deletion (e.g., `0`, `1`, ...) always removes the current root of the tree, which is a much faster $O(1)$ operation (after the node is found), resulting in a total deletion cost of only $O(N)$.
+
+For **Splay Tree**, the opposite is true: reverse-order deletion is more efficient. This is a classic example of exploiting locality. When deleting in reverse order, after splaying and removing `k`, the next target `k-1` is very close to the new root, making the subsequent splay operation extremely fast. However, in the sequential deletion scenario, removing the root `k` and making the next smallest element `k+1` the new root creates a less optimal structure for the subsequent splay of `k+1`, resulting in slightly more work per operation on average.
+
 In conclusion, BST is entirely unsuitable for workloads involving sorted or nearly-sorted data. Both AVL and Splay trees handle such scenarios gracefully, with Splay trees demonstrating a slight performance advantage due to their self-adjusting nature being highly effective for sequential access patterns.
 
-\begin{figure}[ht]
+\begin{figure}[H]
   \centering
-  \begin{subfigure}[b]{0.49\textwidth}
+  % --- Row 1: Scenario 1 (Increase Insert + Increase Delete) ---
+  \begin{subfigure}[b]{0.45\textwidth}
     \centering
     \includegraphics[width=\linewidth]{images/Figure_1.png}
-    \caption{Full-scale View}
-    \label{fig:inc_inc_1}
+    \caption{Scenario 1: Full-scale View}
+    \label{fig:inc_inc_full}
   \end{subfigure}
-  \hfill
-  \begin{subfigure}[b]{0.49\textwidth}
+  \hfill % Pushes the next image to the right
+  \begin{subfigure}[b]{0.45\textwidth}
     \centering
     \includegraphics[width=\linewidth]{images/Figure_2.png}
-    \caption{Zoomed-in View}
-    \label{fig:inc_inc_2}
+    \caption{Scenario 1: Zoomed-in View}
+    \label{fig:inc_inc_zoom}
   \end{subfigure}
-  \caption{Performance with increasing insertion and deletion.}
-  \label{fig:two_scenarios}
-\end{figure}
-
-\begin{figure}[ht]
-  \centering
+  \vspace{1em} % Adds some vertical space between the rows
+  % --- Row 2: Scenario 2 (Increase Insert + Reverse Delete) ---
   \begin{subfigure}[b]{0.45\textwidth}
     \centering
     \includegraphics[width=\linewidth]{images/Figure_3.png}
-    \caption{Full-scale View}
-    \label{fig:inc_rec_1}
+    \caption{Scenario 2: Full-scale View}
+    \label{fig:inc_rev_full}
   \end{subfigure}
-  \hfill
+  \hfill % Pushes the next image to the right
   \begin{subfigure}[b]{0.45\textwidth}
     \centering
     \includegraphics[width=\linewidth]{images/Figure_4.png}
-    \caption{Zoomed-in View}
-    \label{fig:inc_rec_2}
+    \caption{Scenario 2: Zoomed-in View}
+    \label{fig:inc_rev_zoom}
   \end{subfigure}
-  \caption{Performance with increasing insertion and decreasing deletion.}
-  \label{fig:two_scenarios}
+
+  \caption{Performance Comparison in Ordered Data Scenarios.}
+  \label{fig:ordered_scenarios}
 \end{figure}
 
 ### 4.2.2 Random Data Scenario (3)
 
-With random insertions and deletions, the performance landscape changes significantly, as illustrated in ***Figure 3***. All three trees now appear to grow linearly with the input size `N`.
+With random insertions and deletions, the performance landscape changes significantly, as illustrated in ***Figure 2***. All three trees now appear to grow linearly with the input size `N`.
 
 **BST** performs the best in this scenario. The plot shows its performance curve as the lowest of the three, indicating the fastest runtime. This is because random insertions tend to produce a reasonably balanced tree on average, with an expected height of $O(\log N)$. Since BST does not have the overhead of balancing operations, it is faster than both AVL and Splay trees when the data itself doesn't create worst-case scenarios.
 
@@ -534,7 +558,7 @@ With random insertions and deletions, the performance landscape changes signific
 
 **Splay Tree** is the slowest of the three for this purely random workload, with its performance curve being the highest on the plot. The reason is the high cost of the splay operation itself. After every single insertion and deletion, the accessed node is moved to the root via a series of complex rotations. This imposes a significant constant-factor overhead on every operation in a uniform random workload.
 
-\begin{figure}[ht]
+\begin{figure}[H]
   \centering
     \includegraphics[width=0.45\textwidth]{images/Figure_5.png}
   \caption{Performance with random insertion and deletion.}
